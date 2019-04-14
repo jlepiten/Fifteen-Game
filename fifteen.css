@@ -1,0 +1,31 @@
+.tile {
+  border: 1px solid black;
+  display: inline-block;
+  margin: 2px;
+  background-color: Gray;
+  text-align: center;
+  width: 10px;
+  height: 10px;
+  position: absolute;
+  background: url(./background2.jpg);
+}
+
+body {
+  overflow: hidden;
+  margin: 0px;
+}
+
+#shuffle {
+  margin-top: 700px;
+}
+
+#board {
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  position: absolute;
+}
+
+#container {
+  position: fixed;
+}
