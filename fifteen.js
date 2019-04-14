@@ -102,7 +102,7 @@ function resize(){
   positionTiles();
 }
 
-function initTiles(){
+function initTiles(background){
   var board = $('#board');
   for (var y = 0; y <4; y++){
     for (var x = 0; x < 4; x++) {
@@ -113,6 +113,7 @@ function initTiles(){
         var tile = $('<div class ="tile") />');
         board.append(tile);
         tile.data("x", x).data("y",y);
+        tile.css('background', background);
         tile.css('background-position', -100*x + 'px ' + -100*y + 'px');
         tiles[y][x] = tile;
 
@@ -163,14 +164,42 @@ function keydown(event) {
   event.preventDefault();
 }
 
+// $(document).ready
 $(
-  function(evt)  {
+  function()  {
     $(window).resize(resize);
     $(document).keydown(keydown);
-    initTiles();
+
+    // initialize tiles with random background on page startup
+    var bg = Math.floor(Math.random * 4);
+    initTiles("url(./background1.jpg)");
     resize();
     $('#shuffle').click(scramble);
-    //scramble();
 
+    // change background based on option selected
+    $('input:radio[name=background]').change(function() {
+      switch (this.value) {
+        case 'one':
+          $("#board").empty();
+          initTiles("url(./background1.jpg)");
+          resize();
+          break;
+        case 'two':
+          $("#board").empty();
+          initTiles("url(./background2.jpg)");
+          resize();
+          break;
+        case 'three':
+          $("#board").empty();
+          initTiles("url(./background3.png)");
+          resize();
+          break;
+        case 'four':
+          $("#board").empty();
+          initTiles("url(./background4.jpg)");
+          resize();
+          break;
+      }
+    });
   }
 );

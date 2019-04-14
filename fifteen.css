@@ -7,7 +7,7 @@
   width: 10px;
   height: 10px;
   position: absolute;
-  background: url(./background2.jpg);
+
 }
 
 body {
@@ -16,7 +16,7 @@ body {
 }
 
 #shuffle {
-  margin-top: 700px;
+
 }
 
 #board {
@@ -28,4 +28,14 @@ body {
 
 #container {
   position: fixed;
+}
+
+input[type="radio"] {
+  margin-top: 500px;
+
+}
+
+#menu {
+  width: 100%;
+  text-align: center;
 }
