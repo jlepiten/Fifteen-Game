@@ -13,6 +13,12 @@
 body {
   overflow: hidden;
   margin: 0px;
+  font-family: "Comic Sans MS";
+  text-align: center;
+}
+
+embed {
+  background-color: white;
 }
 
 #shuffle {

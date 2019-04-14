@@ -1,5 +1,6 @@
 var MARGIN = 2;
 var BORDER = 1;
+var MOVES = 0;
 
 var tileWidth;
 var tileHeight;
@@ -15,8 +16,8 @@ var gapY = 3;
 
 function slideTile(tile, duration) {
   tile.animate ({
-    top: tile.data("y") * tileHeight,
-    left: tile.data("x") * tileWidth
+    top: tile.data("y") * tileHeight + 50,
+    left: tile.data("x") * tileWidth + 757
   }, duration || 200);
 }
 
@@ -28,6 +29,8 @@ function down() {
     slideTile(tile);
     gapY = gapY - 1;
     tiles[gapY][gapX] = null;
+    MOVES++;
+    document.getElementById('moves').innerHTML = MOVES;
   }
 }
 
@@ -39,6 +42,8 @@ function up() {
     slideTile(tile);
     gapY = gapY + 1;
     tiles[gapY][gapX] = null;
+    MOVES++;
+    document.getElementById('moves').innerHTML = MOVES;
   }
 }
 
@@ -50,6 +55,8 @@ function right() {
     slideTile(tile);
     gapX = gapX - 1;
     tiles[gapY][gapX] = null;
+    MOVES++;
+    document.getElementById('moves').innerHTML = MOVES;
   }
 }
 
@@ -61,6 +68,8 @@ function left() {
     slideTile(tile);
     gapX = gapX + 1;
     tiles[gapY][gapX] = null;
+    MOVES++;
+    document.getElementById('moves').innerHTML = MOVES;
   }
 }
 
@@ -71,8 +80,8 @@ function positionTiles() {
 
       if (tile) {
         tile.css ({
-          top: tile.data("y") * tileHeight,
-          left: tile.data("x") * tileWidth
+          top: tile.data("y") * tileHeight + 50,
+          left: tile.data("x") * tileWidth + 757
         });
       }
     }
@@ -142,6 +151,12 @@ function scramble() {
       right();
     }
   }
+  resetMoves();
+}
+
+function resetMoves() {
+  MOVES = 0;
+  document.getElementById('moves').innerHTML = MOVES;
 }
 
 function keydown(event) {
@@ -175,6 +190,7 @@ $(
     initTiles("url(./background1.jpg)");
     resize();
     $('#shuffle').click(scramble);
+    document.getElementById('moves').innerHTML = MOVES;
 
     // change background based on option selected
     $('input:radio[name=background]').change(function() {
@@ -183,23 +199,33 @@ $(
           $("#board").empty();
           initTiles("url(./background1.jpg)");
           resize();
+          gapX = 3;
+          gapY = 3;
           break;
         case 'two':
           $("#board").empty();
           initTiles("url(./background2.jpg)");
           resize();
+          gapX = 3;
+          gapY = 3;
           break;
         case 'three':
           $("#board").empty();
           initTiles("url(./background3.png)");
           resize();
+          gapX = 3;
+          gapY = 3;
           break;
         case 'four':
           $("#board").empty();
           initTiles("url(./background4.jpg)");
           resize();
+          gapX = 3;
+          gapY = 3;
           break;
       }
+      resetMoves();
+
     });
   }
 );
