@@ -10,9 +10,10 @@
   <div id="container">
     <h3>Fifteen Puzzle</h3>
     <p>The goal of the fifteen puzzle is to un-jumble its fifteen squares by repeatedly making moves that slides squares into the empty space. How quickly can you solve it?</p>
+    <h1 id="winner"></h3>
     <div id = "board">
     </div>
-    <br>
+
     <div id="menu">
       <input type="radio" name="background" value="one" id="bg1">theme 1
       <input type="radio" name="background" value="two" id="bg2">theme 2
@@ -22,7 +23,8 @@
       <button type="button" id="shuffle">shuffle</button>
     </div>
 
-    <p id="moves"></p>
+    <p>Moves: <span id="moves"></span></p>
+    <label id="minutes">00</label>:<label id="seconds">00</label>
 
     <p>American puzzle author and mathematician Sam Loyd is often falsely credited with creating the puzzle; indeed, Loyd claimed from 1891 until his death in 1922 that he invented it. The puzzle was actually created around 1874 by Noyes Palmer Chapman, a postmaster in Canastota, New York</p>
     <embed src="./song.mp3">

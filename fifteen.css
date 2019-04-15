@@ -11,7 +11,7 @@
 }
 
 body {
-  overflow: hidden;
+  overflow: scroll;
   margin: 0px;
   font-family: "Comic Sans MS";
   text-align: center;
@@ -37,7 +37,7 @@ embed {
 }
 
 input[type="radio"] {
-  margin-top: 500px;
+  margin-top: 430px;
 
 }
 

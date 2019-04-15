@@ -10,32 +10,94 @@ var tiles = [
   [9, 10, 11, 12],
   [13, 14, 15, null]
 ];
+var order = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15];
 
 var gapX = 3;
 var gapY = 3;
 
+function checkWin() {
+  if (gapX == 3 && gapY == 3) {
+
+    for (var y = 0; y < 4; y++){
+      for (var x = 0; x < 4; x++ ){
+        var value = y * 4 + x + 1;
+        if (value < 16) {
+          var data = tiles[y][x].data();
+          console.log(data);
+        }
+        // var data = tiles[y][x].data();
+        // if (data != null) {
+        //   console.log(data);
+        // }
+
+        //console.log(tilerow[x]);
+        // console.log(value);
+        // console.log(tiles[y][x]);
+        // if ( (value < 16) && (tiles[y][x] != value) ) {
+        //   console.log("loser");
+        //   return 0;
+        // }
+      }
+    }
+    // console.log("winner");
+    // return 1;
+  }
+}
+
 function slideTile(tile, duration) {
   tile.animate ({
-    top: tile.data("y") * tileHeight + 50,
-    left: tile.data("x") * tileWidth + 757
+    top: tile.data("y") * tileHeight,
+    left: tile.data("x") * tileWidth + window.innerWidth / 2 - 200
   }, duration || 200);
 }
 
 function down() {
   if (gapY > 0) {
+    // change order array
+    var i = (gapY - 1) * 4 + gapX;
+    var max = i + 3;
+    for (i = i; i < max; i++) {
+      // bubble-sort-esque
+      var temp = order[i];
+      order[i] = order[i+1];
+      order[i+1] = temp;
+    }
+    console.log("gapY: " + gapY);
+    console.log("gapX: " + gapX);
+    console.log("i: " + i);
+    console.log(order);
+
+    // change tile positions
     var tile = tiles[gapY - 1][gapX];
     tiles[gapY][gapX] = tile;
     tile.data("y", gapY);
     slideTile(tile);
     gapY = gapY - 1;
     tiles[gapY][gapX] = null;
+
     MOVES++;
     document.getElementById('moves').innerHTML = MOVES;
+    //checkWin();
   }
 }
 
 function up() {
   if (gapY < 3) {
+    // // change order array
+    // var i = (gapY + 1) * 4 - gapX;
+    // var max = i + 3;
+    // for (i = i; i < max; i++) {
+    //   // bubble-sort-esque
+    //   var temp = order[i];
+    //   order[i] = order[i+1];
+    //   order[i+1] = temp;
+    // }
+    // console.log("gapY: " + gapY);
+    // console.log("gapX: " + gapX);
+    // console.log("i: " + i);
+    // console.log(order);
+
+    // change tile positions
     var tile = tiles[gapY + 1][gapX];
     tiles[gapY][gapX] = tile;
     tile.data("y", gapY);
@@ -44,6 +106,7 @@ function up() {
     tiles[gapY][gapX] = null;
     MOVES++;
     document.getElementById('moves').innerHTML = MOVES;
+    //checkWin();
   }
 }
 
@@ -57,6 +120,7 @@ function right() {
     tiles[gapY][gapX] = null;
     MOVES++;
     document.getElementById('moves').innerHTML = MOVES;
+    //checkWin();
   }
 }
 
@@ -70,6 +134,7 @@ function left() {
     tiles[gapY][gapX] = null;
     MOVES++;
     document.getElementById('moves').innerHTML = MOVES;
+    //checkWin();
   }
 }
 
@@ -77,11 +142,10 @@ function positionTiles() {
   for (var x = 0; x < 4; x++){
     for (var y = 0; y < 4; y++ ){
       var tile = tiles [y][x];
-
       if (tile) {
         tile.css ({
-          top: tile.data("y") * tileHeight + 50,
-          left: tile.data("x") * tileWidth + 757
+          top: tile.data("y") * tileHeight,
+          left: tile.data("x") * tileWidth + window.innerWidth / 2 - 200
         });
       }
     }
@@ -122,6 +186,8 @@ function initTiles(background){
         var tile = $('<div class ="tile") />');
         board.append(tile);
         tile.data("x", x).data("y",y);
+        //var data = tile.data("x");//testing
+        //console.log(data);//testing
         tile.css('background', background);
         tile.css('background-position', -100*x + 'px ' + -100*y + 'px');
         tiles[y][x] = tile;
@@ -135,6 +201,7 @@ function initTiles(background){
       }
     }
   }
+  console.log("initialization complete");
 }
 
 function scramble() {
@@ -160,7 +227,7 @@ function resetMoves() {
 }
 
 function keydown(event) {
-  console.log(event.which);
+  //console.log(event.which);
   switch (event.which){
     case 38: //up
     up();
@@ -189,8 +256,33 @@ $(
     var bg = Math.floor(Math.random * 4);
     initTiles("url(./background1.jpg)");
     resize();
-    $('#shuffle').click(scramble);
+    $('#shuffle').click(function() {
+      scramble();
+      totalSeconds = -1; // reset timer
+    });
     document.getElementById('moves').innerHTML = MOVES;
+
+    // feature: notify when user has won
+
+
+    // game timer in seconds
+    var minutesLabel = document.getElementById("minutes");
+    var secondsLabel = document.getElementById("seconds");
+    var totalSeconds = 0;
+    setInterval(setTime, 1000);
+    function setTime() {
+      ++totalSeconds;
+      secondsLabel.innerHTML = pad(totalSeconds % 60);
+      minutesLabel.innerHTML = pad(parseInt(totalSeconds / 60));
+    }
+    function pad(val) {
+      var valString = val + "";
+      if (valString.length < 2) {
+        return "0" + valString;
+      } else {
+        return valString;
+      }
+    }
 
     // change background based on option selected
     $('input:radio[name=background]').change(function() {
@@ -225,7 +317,8 @@ $(
           break;
       }
       resetMoves();
-
+      totalSeconds = -1;
     });
-  }
+
+  } // end of document.ready
 );
